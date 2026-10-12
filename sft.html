@@ -1,89 +1,136 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Student Finance Tracker</title>
+
     <link rel="stylesheet" href="sft.css">
 </head>
+
 <body>
     <header>
         <h1>Student Finance Tracker</h1>
+
         <nav>
-            <a href= #dashboard>Dashboard</a>
-            <a href= #add>Add</a>
-            <a href= #about>About</a>
-            <a href= #settings>Settings</a>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#add">Add</a>
+            <a href="#about">About</a>
+            <a href="#settings">Settings</a>
         </nav>
     </header>
+
     <main class="top">
+
+        <!-- Dashboard -->
         <section id="dashboard">
             <h2>Dashboard</h2>
+
             <div class="cards">
                 <div class="card">
                     <strong>Records</strong>
                     <div id="records-count">12</div>
                 </div>
+
                 <div class="card">
                     <strong>Total Spent</strong>
                     <div id="total">$240</div>
                 </div>
-
             </div>
+
             <div class="card">
                 <strong>Top category: Tuition</strong>
             </div>
-            <div class ="card">
-                <strong>Budget Status:</strong><span id ="cap-message">Cap: $60 left</span>
-            </div>
-            <h3> Recent Records</h3>
-            <div class="chart">▅ ▃ ▇</div>
 
+            <div class="card">
+                <strong>Budget Status:</strong>
+                <span id="cap-message">Cap: $60 left</span>
+            </div>
+
+            <h3>Recent Records</h3>
+            <div class="chart">▅ ▃ ▇</div>
         </section>
+
+        <!-- Add Transaction -->
         <section id="add">
-            <h2>Add transaction</h2>
+            <h2>Add Transaction</h2>
+
             <form id="transaction-form">
                 <div>
                     <label for="dsc">Description</label>
-                    <input type="text" id="dsc" required>
+                    <input
+                        type="text"
+                        id="dsc"
+                        required
+                    >
                 </div>
+
                 <div>
                     <label for="amount">Amount</label>
-                    <input type="number" step="0.01" id="amount" required>
+                    <input
+                        type="number"
+                        id="amount"
+                        min="0.01"
+                        step="0.01"
+                        required
+                    >
                 </div>
+
                 <div>
-                <label for="category">Category</label>
-                <select id="category">
-                    <option value="tuition">Tuition</option>
-                    <option value="transport">Transport</option>
-                    <option value="food">Food</option>
-                    <option value="books">Books</option>
-                </select>
-            </div>
-            <div>
-                <label for="date">Date</label>
-                <input type="date" id="date" required>
-            </div>
-            <button type="submit">Save</button>
-        </form>
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                        <option value="tuition">Tuition</option>
+                        <option value="transport">Transport</option>
+                        <option value="food">Food</option>
+                        <option value="books">Books</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="date">Date</label>
+                    <input
+                        type="date"
+                        id="date"
+                        required
+                    >
+                </div>
+
+                <button type="submit">Save</button>
+            </form>
         </section>
+
+        <!-- Settings -->
         <section id="settings" class="section">
-        <h2>Settings</h2>
-        <p>Manage Cap, categories, currency, and Import / Export options here.</p>
+            <h2>Settings</h2>
+            <p>
+                Manage your spending cap, categories, currency,
+                and import/export options here.
+            </p>
         </section>
+
+        <!-- About -->
         <section id="about" class="section">
-        <h2>About</h2>
-        <p>Student Finance Tracker simplifies organizing your expenses as you are studying.</p>
+            <h2>About</h2>
+            <p>
+                Student Finance Tracker helps students organize
+                and monitor their expenses while studying.
+            </p>
         </section>
+
     </main>
+
     <footer>
-        <a href="https://github.com/humwamikaz-ops">Github</a>&bull;<a href="h.umwamikaz@alustudent.com">Email</a>
+        <a href="https://github.com/humwamikaz-ops">GitHub</a>
+        &bull;
+        <a href="mailto:h.umwamikaz@alustudent.com">Email</a>
     </footer>
- 
+
+    <script src="storage.js"></script>
+    <script src="state.js"></script>
+    <script src="validate.js"></script>
+    <script src="ui.js"></script>
+    <script src="main.js"></script>
 </body>
-<script src="storage.js"></script>
-<script src="state.js"></script>
-<script src="validate.js"></script>
-<script src="ui.js"></script>
-<script src="main.js"></script>
 </html>
