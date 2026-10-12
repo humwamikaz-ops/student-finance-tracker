@@ -1,8 +1,14 @@
+html, body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 body{
     font-family: Arial, Helvetica, sans-serif;
-    padding: 0;
-    margin: 0;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 header{
    background-color: #1e293b;
@@ -12,7 +18,7 @@ header{
    justify-content: space-between;
    flex-wrap: wrap;
 }
-main, footer{
+main{
     background: white;
     padding: 20px;
     margin-bottom: 20px;
@@ -29,7 +35,7 @@ header nav{
     gap: 8px;
 }
 
-header button{
+header a{
     display: inline-block;
     color: #f1f5f9;
     background-color: transparent;
@@ -40,11 +46,11 @@ header button{
     border-radius: 6px;
     transition: background-color 0.2s ease;
 }
-header button:hover{
+header a:hover{
     background-color: #334155;
     color: #ffffff;
 }
-header button.active{
+header a.active{
     background-color: #0284c7;
     color:white;
 }
@@ -82,7 +88,19 @@ footer{
 }
 main > section {
     display: none;
+
 }
 main > section.active{
     display: block;
+}
+footer{
+    color: white;
+    text-align: center;
+    padding: 15px 20px;
+    background-color: #1e293b;
+    margin-top: auto;
+}
+footer a{
+    text-decoration: none;
+    color: white;
 }

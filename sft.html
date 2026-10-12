@@ -10,10 +10,10 @@
     <header>
         <h1>Student Finance Tracker</h1>
         <nav>
-            <button>Dashboard</button>
-            <button>Add</button>
-            <button>About</button>
-            <button>Settings</button>
+            <a href= #dashboard>Dashboard</a>
+            <a href= #add>Add</a>
+            <a href= #about>About</a>
+            <a href= #settings>Settings</a>
         </nav>
     </header>
     <main class="top">
@@ -41,17 +41,17 @@
 
         </section>
         <section id="add">
-        <h2>add transaction</h2>
-        <form id="transaction-form" onsubmit="addTransaction(event)">
-            <div>
-                <label for="dsc">Description</label>
-                <input type="text" id="dsc" required>
-            </div>
-            <div>
-                <label for="amount">Amount</label>
-                <input type="number" step="0.01" id="amount" required>
-            </div>
-            <div>
+            <h2>Add transaction</h2>
+            <form id="transaction-form">
+                <div>
+                    <label for="dsc">Description</label>
+                    <input type="text" id="dsc" required>
+                </div>
+                <div>
+                    <label for="amount">Amount</label>
+                    <input type="number" step="0.01" id="amount" required>
+                </div>
+                <div>
                 <label for="category">Category</label>
                 <select id="category">
                     <option value="tuition">Tuition</option>
@@ -77,10 +77,13 @@
         </section>
     </main>
     <footer>
-        <p>Github &bull; Email</p>
+        <a href="https://github.com/humwamikaz-ops">Github</a>&bull;<a href="h.umwamikaz@alustudent.com">Email</a>
     </footer>
-    <div role="status" id="status-area">
-        Status: Ready
-    </div>
+ 
 </body>
+<script src="storage.js"></script>
+<script src="state.js"></script>
+<script src="validate.js"></script>
+<script src="ui.js"></script>
+<script src="main.js"></script>
 </html>
