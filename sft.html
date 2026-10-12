@@ -1,28 +1,27 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Student Finance Tracker</title>
-
     <link rel="stylesheet" href="sft.css">
 </head>
-
 <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
     <header>
         <h1>Student Finance Tracker</h1>
 
-        <nav>
+        <nav aria-label="Primary">
             <a href="#dashboard">Dashboard</a>
+            <a href="#records">Records</a>
             <a href="#add">Add</a>
             <a href="#about">About</a>
             <a href="#settings">Settings</a>
         </nav>
     </header>
 
-    <main class="top">
+    <main id="main">
 
         <!-- Dashboard -->
         <section id="dashboard">
@@ -30,62 +29,121 @@
 
             <div class="cards">
                 <div class="card">
-                    <strong>Records</strong>
-                    <div id="records-count">12</div>
+                    <small>Records</small>
+                    <div id="records-count">0</div>
                 </div>
 
                 <div class="card">
-                    <strong>Total Spent</strong>
-                    <div id="total">$240</div>
+                    <small>Total Spent</small>
+                    <div id="total">$0.00</div>
+                </div>
+
+                <div class="card">
+                    <small>Top Category</small>
+                    <div id="top-category">-</div>
+                </div>
+
+                <div class="card">
+                    <small>Budget Status</small>
+                    <div id="cap-message" aria-live="polite">Cap: $0 left</div>
                 </div>
             </div>
 
-            <div class="card">
-                <strong>Top category: Tuition</strong>
+            <h3>Last 7 days</h3>
+            <div id="chart-container" role="img" aria-label="Spending chart for the last 7 days"></div>
+        </section>
+
+        <!-- Records -->
+        <section id="records">
+            <h2>Records</h2>
+
+            <div class="records-controls">
+                <div>
+                    <label for="search-input">Search</label>
+                    <input type="text" id="search-input" placeholder="Search transactions...">
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="case-sensitive-checkbox">
+                    <label for="case-sensitive-checkbox">Case sensitive</label>
+                </div>
+
+                <div id="search-error" role="status" aria-live="polite"></div>
+
+                <div>
+                    <label for="sort-select">Sort by</label>
+                    <select id="sort-select">
+                        <option value="date-desc">Date (Newest)</option>
+                        <option value="date-asc">Date (Oldest)</option>
+                        <option value="desc-asc">Description (A to Z)</option>
+                        <option value="desc-desc">Description (Z to A)</option>
+                        <option value="amount-desc">Amount (High to Low)</option>
+                        <option value="amount-asc">Amount (Low to High)</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="card">
-                <strong>Budget Status:</strong>
-                <span id="cap-message">Cap: $60 left</span>
+            <div class="table-container">
+                <table>
+                    <caption>Recorded Transactions</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Description</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactions-tbody">
+                    </tbody>
+                </table>
             </div>
 
-            <h3>Recent Records</h3>
-            <div class="chart">▅ ▃ ▇</div>
+            <p id="empty-records-msg">No transactions yet. Add your first one.</p>
         </section>
 
         <!-- Add Transaction -->
         <section id="add">
             <h2>Add Transaction</h2>
 
-            <form id="transaction-form">
+            <form id="transaction-form" novalidate>
+                <input type="hidden" id="edit-index" value="">
+
                 <div>
                     <label for="dsc">Description</label>
                     <input
                         type="text"
                         id="dsc"
+                        aria-describedby="desc-error"
                         required
                     >
+                    <div id="desc-error" class="error-msg" aria-live="polite"></div>
                 </div>
 
                 <div>
                     <label for="amount">Amount</label>
                     <input
-                        type="number"
+                        type="text"
                         id="amount"
-                        min="0.01"
-                        step="0.01"
+                        inputmode="decimal"
+                        aria-describedby="amount-error"
                         required
                     >
+                    <div id="amount-error" class="error-msg" aria-live="polite"></div>
                 </div>
 
                 <div>
                     <label for="category">Category</label>
-                    <select id="category" required>
-                        <option value="tuition">Tuition</option>
-                        <option value="transport">Transport</option>
+                    <select id="category" aria-describedby="category-error" required>
                         <option value="food">Food</option>
                         <option value="books">Books</option>
+                        <option value="transport">Transport</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="fees">Fees</option>
+                        <option value="other">Other</option>
                     </select>
+                    <div id="category-error" class="error-msg" aria-live="polite"></div>
                 </div>
 
                 <div>
@@ -93,44 +151,94 @@
                     <input
                         type="date"
                         id="date"
+                        aria-describedby="date-error"
                         required
                     >
+                    <div id="date-error" class="error-msg" aria-live="polite"></div>
                 </div>
 
-                <button type="submit">Save</button>
+                <div class="form-actions">
+                    <button type="submit" id="save-btn">Save</button>
+                    <button type="button" id="cancel-btn" style="display: none;">Cancel</button>
+                </div>
             </form>
         </section>
 
         <!-- Settings -->
-        <section id="settings" class="section">
+        <section id="settings">
             <h2>Settings</h2>
             <p>
                 Manage your spending cap, categories, currency,
                 and import/export options here.
             </p>
+
+            <form id="settings-form">
+                <div>
+                    <label for="spending-cap">Monthly Spending Cap</label>
+                    <input type="number" id="spending-cap" min="0" step="1">
+                </div>
+
+                <div class="currency-group">
+                    <label for="base-currency">Base Currency</label>
+                    <select id="base-currency">
+                        <option value="USD">USD ($)</option>
+                        <option value="EUR">EUR (€)</option>
+                        <option value="GBP">GBP (£)</option>
+                        <option value="RWF">RWF (FRw)</option>
+                    </select>
+                    <label for="rate-1">Exchange Rate 1</label>
+                    <input type="number" id="rate-1" step="0.0001" placeholder="Rate 1">
+                    <label for="rate-2">Exchange Rate 2</label>
+                    <input type="number" id="rate-2" step="0.0001" placeholder="Rate 2">
+                </div>
+
+                <div>
+                    <label for="new-category">Add New Category</label>
+                    <input type="text" id="new-category" placeholder="Category name">
+                    <button type="button" id="add-category-btn">Add Category</button>
+                </div>
+
+                <div class="data-actions">
+                    <button type="button" id="export-btn">Export Data (JSON)</button>
+                    <div>
+                        <label for="import-file">Import Data</label>
+                        <input type="file" id="import-file" accept=".json">
+                    </div>
+                </div>
+            </form>
         </section>
 
         <!-- About -->
-        <section id="about" class="section">
+        <section id="about">
             <h2>About</h2>
             <p>
                 Student Finance Tracker helps students organize
                 and monitor their expenses while studying.
             </p>
+            <div class="about-contact">
+                <p>Created by Umwamikazi Honorata.</p>
+                <p>
+                    <a href="https://github.com/humwamikaz-ops" target="_blank" rel="noopener">GitHub</a> &bull;
+                    <a href="mailto:h.umwamikaz@alustudent.com">Email</a>
+                </p>
+            </div>
         </section>
 
     </main>
 
     <footer>
-        <a href="https://github.com/humwamikaz-ops">GitHub</a>
+        <a href="https://github.com/humwamikaz-ops" target="_blank" rel="noopener">GitHub</a>
         &bull;
         <a href="mailto:h.umwamikaz@alustudent.com">Email</a>
     </footer>
 
+    <div id="status-area" role="status" aria-live="polite"></div>
+
+    <script type="module" src="scripts/main.js"></script>
     <script src="storage.js"></script>
     <script src="state.js"></script>
     <script src="validate.js"></script>
     <script src="ui.js"></script>
-    <script src="main.js"></script>
 </body>
+
 </html>
