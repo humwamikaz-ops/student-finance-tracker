@@ -1,39 +1,82 @@
-function updateUI(){
+
+function updateUI() {
     var records = getAllRecords();
 
     var countElem = document.getElementById("records-count");
-    if (countElem) countElem.textContent = records.length;
+    if (countElem) {
+        countElem.textContent = records.length;
+    }
+
     var total = 0;
     var cats = {};
-    for (var i = 0; i < records.length; i++){
-        var amt = parseFloat(records[i].amount) || 0;
-        total += amt;
-        var c= records[i].category || "other";
-        cats[c] = (cats[c] || 0) +amt;
-    }
-    var totalElem = document.getElementById("total");
-    if (totalElem) totalElem.textContent = "$" + total.toFixed(2);
-    var topCat = "None", max = -1;
-    for (var k in cats) {
-        if (cats[k] > max) { max = cats[k]; topCat =k;}
 
+    for (var i = 0; i < records.length; i++) {
+        var amount = parseFloat(records[i].amount) || 0;
+        total = total + amount;
+
+        var category = records[i].category || "other";
+        cats[category] = (cats[category] || 0) + amount;
     }
+
+    var totalElem = document.getElementById("total");
+    if (totalElem) {
+        totalElem.textContent = "$" + total.toFixed(2);
+    }
+
+    var topCat = "None";
+    var max = -1;
+
+    for (var category in cats) {
+        if (cats[category] > max) {
+            max = cats[category];
+            topCat = category;
+        }
+    }
+
     var cards = document.querySelectorAll("#dashboard .card");
-    if (cards[2]) cards[2].querySelector("strong").textContent = "Top category: " + topCat;
+
+    if (cards[2]) {
+        cards[2].querySelector("strong").textContent =
+            "Top category: " + topCat;
+    }
 
     var capElem = document.getElementById("cap-message");
-    if (capElem) capElem.textContent = "Cap: $" + (300 - total).toFixed(2) + " left";
+
+    if (capElem) {
+        capElem.textContent =
+            "Cap: $" + (300 - total).toFixed(2) + " left";
+    }
 }
+
 function setupTabs() {
-    var buttons = document.querySelectorAll("header nav button");
+    var links = document.querySelectorAll("header nav a");
     var sections = document.querySelectorAll("main > section");
 
-    buttons.forEach(function(btn, idx) {
-        btn.addEventListener("click", function() {
-            buttons.forEach(function(b) { b.classList.remove("active"); });
-            sections.forEach(function(s) { s.classList.remove("active"); });
-            btn.classList.add("active");
-            if (sections[idx]) sections[idx].classList.add("active");
+    links.forEach(function (link) {
+        link.addEventListener("click", function () {
+            var id = link.getAttribute("href").substring(1);
+
+            sections.forEach(function (section) {
+                section.classList.remove("active");
+            });
+
+            links.forEach(function (item) {
+                item.classList.remove("active");
+            });
+
+            var section = document.getElementById(id);
+
+            if (section) {
+                section.classList.add("active");
+                link.classList.add("active");
+            }
         });
     });
+
+    var dashboard = document.getElementById("dashboard");
+
+    if (dashboard) {
+        dashboard.classList.add("active");
+    }
 }
+next
