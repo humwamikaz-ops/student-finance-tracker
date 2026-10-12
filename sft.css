@@ -1,7 +1,17 @@
 header{
    background-color: #1e293b;
-   overflow: auto;
+   padding: 15px 20px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   flex-wrap: wrap;
    padding: 10px;
+}
+
+header h1{
+    margin: 0;
+    font-size: 1.5rem;
+    color: #ffffff;
 }
 header button{
     display: inline-block;
