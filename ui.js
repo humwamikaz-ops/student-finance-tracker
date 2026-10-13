@@ -43,9 +43,15 @@ function updateUI() {
     var capElem = document.getElementById("cap-message");
 
     if (capElem) {
-        capElem.textContent =
-            "Cap: $" + (300 - total).toFixed(2) + " left";
-    }
+        var remaining = 300 - total;
+        if (remaining >= 0) {
+            capElem.setAttribute("aria-live", "assertive");
+            capElem.setContent = "Cap: $" + remaining.toFixed(2) + "left";
+        }
+        else {
+            capElem.setAttribute("aria-live", "assertive");
+            capElem.textContent = " !Exceeeded by $" + Math.abs(remainin).toFixed(2) + "!"
+        }
 }
 
 function setupTabs() {
@@ -78,5 +84,5 @@ function setupTabs() {
     if (dashboard) {
         dashboard.classList.add("active");
     }
+    }
 }
-next
